@@ -1,0 +1,4 @@
+.vim/bundle/*
+.vim/ruby-refm
+.netrwhist
+!.vim/bundle/neobundle.vim
