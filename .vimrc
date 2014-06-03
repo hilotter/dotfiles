@@ -74,6 +74,8 @@ NeoBundleLazy 'tsukkee/unite-tag', {
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'szw/vim-tags'
 
+NeoBundle 'scrooloose/syntastic'
+
 " Required:
 filetype plugin indent on
 
@@ -83,8 +85,13 @@ NeoBundleCheck
 
 syntax on
 set nocompatible
+
+set encoding=utf-8
+set fileencodings=ucs_bom,utf8,ucs-2le,ucs-2
+set fileformats=unix,dos,mac
+
 " refs: http://www.kawaz.jp/pukiwiki/?vim
-" $BJ8;z%3!<%I$N<+F0G'<1(B
+" 文字コードの自動認識
 if &encoding !=# 'utf-8'
   set encoding=japan
   set fileencoding=japan
@@ -92,20 +99,20 @@ endif
 if has('iconv')
   let s:enc_euc = 'euc-jp'
   let s:enc_jis = 'iso-2022-jp'
-  " iconv$B$,(BeucJP-ms$B$KBP1~$7$F$$$k$+$r%A%'%C%/(B
+  " iconvがeucJP-msに対応しているかをチェック
   if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
     let s:enc_euc = 'eucjp-ms'
     let s:enc_jis = 'iso-2022-jp-3'
-  " iconv$B$,(BJISX0213$B$KBP1~$7$F$$$k$+$r%A%'%C%/(B
+  " iconvがJISX0213に対応しているかをチェック
   elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
     let s:enc_euc = 'euc-jisx0213'
     let s:enc_jis = 'iso-2022-jp-3'
   endif
-  " fileencodings$B$r9=C[(B
+  " fileencodingsを構築
   if &encoding ==# 'utf-8'
     let s:fileencodings_default = &fileencodings
     let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
-    let &fileencodings = &fileencodings .','. s:fileencodings_default
+    let &fileencodings = s:fileencodings_default .','. &fileencodings
     unlet s:fileencodings_default
   else
     let &fileencodings = &fileencodings .','. s:enc_jis
@@ -121,22 +128,13 @@ if has('iconv')
       let &fileencodings = &fileencodings .','. s:enc_euc
     endif
   endif
-  " $BDj?t$r=hJ,(B
+
   unlet s:enc_euc
   unlet s:enc_jis
 endif
-" $BF|K\8l$r4^$^$J$$>l9g$O(B fileencoding $B$K(B encoding $B$r;H$&$h$&$K$9$k(B
-if has('autocmd')
-  function! AU_ReCheck_FENC()
-    if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
-      let &fileencoding=&encoding
-    endif
-  endfunction
-  autocmd BufReadPost * call AU_ReCheck_FENC()
-endif
-" $B2~9T%3!<%I$N<+F0G'<1(B
-set fileformats=unix,dos,mac
-" $B""$H$+!{$NJ8;z$,$"$C$F$b%+!<%=%k0LCV$,$:$l$J$$$h$&$K$9$k(B
+" }}}
+
+" □とか○の文字があってもカーソル位置がずれないようにする
 if exists('&ambiwidth')
   set ambiwidth=double
 endif
@@ -195,7 +193,6 @@ nnoremap <down> <nop>
 " vim-rails
 "------------------------------------
 ""{{{
-"$BM-8z2=(B
 let g:rails_default_file='config/database.yml'
 let g:rails_level = 4
 let g:rails_mappings=1
@@ -215,11 +212,11 @@ function! SetUpRailsSetting()
   nnoremap <buffer><Space>v :Rview<Space>
   nnoremap <buffer><Space>p :Rpreview<CR>
 endfunction
- 
+
 aug MyAutoCmd
   au User Rails call SetUpRailsSetting()
 aug END
- 
+
 aug RailsDictSetting
   au!
 aug END
@@ -234,7 +231,7 @@ function! UniteRailsSetting()
   nnoremap <buffer><C-H><C-H><C-H>  :<C-U>Unite rails/view<CR>
   nnoremap <buffer><C-H><C-H>       :<C-U>Unite rails/model<CR>
   nnoremap <buffer><C-H>            :<C-U>Unite rails/controller<CR>
- 
+
   nnoremap <buffer><C-H>c           :<C-U>Unite rails/config<CR>
   nnoremap <buffer><C-H>s           :<C-U>Unite rails/spec<CR>
   nnoremap <buffer><C-H>m           :<C-U>Unite rails/db -input=migrate<CR>
@@ -268,7 +265,7 @@ aug END
 
 " matchit
 if !exists('loaded_matchit')
-  " matchit$B$rM-8z2=(B
+  " matchitを有効化
   runtime macros/matchit.vim
 endif
 
@@ -281,7 +278,7 @@ if has('vim_starting') &&  file_name == ""
 endif
 
 " neocomplcache
-" neocomplcache$BMQ@_Dj(B
+" neocomplcache用設定
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_ignore_case = 1
 let g:neocomplcache_enable_smart_case = 1
@@ -294,3 +291,8 @@ let g:neocomplcache_enable_underbar_completion = 1
 let g:neocomplcache#sources#rsense#home_directory = '/opt/rsense-0.3'
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+" Rubocop
+let g:syntastic_mode_map = { 'mode': 'passive',
+            \ 'active_filetypes': ['ruby'] }
+let g:syntastic_ruby_checkers = ['rubocop']
