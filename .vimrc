@@ -76,6 +76,8 @@ NeoBundle 'szw/vim-tags'
 
 NeoBundle 'scrooloose/syntastic'
 
+NeoBundle 'Shougo/vimshell'
+
 " Required:
 filetype plugin indent on
 
@@ -296,3 +298,8 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 let g:syntastic_mode_map = { 'mode': 'passive',
             \ 'active_filetypes': ['ruby'] }
 let g:syntastic_ruby_checkers = ['rubocop']
+
+" VimShell
+let g:vimshell_execute_file_list = {}
+let g:vimshell_execute_file_list['rb'] = 'bundle exec ruby'
+noremap ,sh :sp<CR><C-w>j:VimShell<CR>
