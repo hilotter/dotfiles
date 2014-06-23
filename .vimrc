@@ -78,6 +78,10 @@ NeoBundle 'scrooloose/syntastic'
 
 NeoBundle 'Shougo/vimshell'
 
+NeoBundle 'mattn/emmet-vim'
+
+NeoBundle 'tpope/vim-surround'
+
 " Required:
 filetype plugin indent on
 
@@ -303,3 +307,9 @@ let g:syntastic_ruby_checkers = ['rubocop']
 let g:vimshell_execute_file_list = {}
 let g:vimshell_execute_file_list['rb'] = 'bundle exec ruby'
 noremap ,sh :sp<CR><C-w>j:VimShell<CR>
+
+" emmet-key
+let g:user_emmet_leader_key='<c-e>'
+let g:user_emmet_settings = {
+\   'lang' : 'ja'
+\ }
