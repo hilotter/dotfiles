@@ -149,7 +149,7 @@ set backspace=indent,eol,start
 set expandtab
 set tabstop=4
 set shiftwidth=2
-set clipboard=unnamed
+set clipboard=unnamed,autoselect
 set ruler
 set wrap
 set list
