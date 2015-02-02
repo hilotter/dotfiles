@@ -247,6 +247,7 @@ function! UniteRailsSetting()
   nnoremap <buffer><expr><C-H>se    ':e '.b:rails_root.'/db/seeds.rb<CR>'
   nnoremap <buffer><C-H>ra          :<C-U>Unite rails/rake<CR>
   nnoremap <buffer><C-H>h           :<C-U>Unite rails/heroku<CR>
+  nnoremap <silent> ;@              :<C-u>Unite file_rec/async:!<CR>
 endfunction
 aug MyAutoCmd
   au User Rails call UniteRailsSetting()
@@ -278,10 +279,7 @@ endif
 " NERDTree
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden = 1
-let file_name = expand("%:p")
-if has('vim_starting') &&  file_name == ""
-  autocmd VimEnter * execute 'NERDTree ./'
-endif
+"autocmd VimEnter * execute 'NERDTree'
 
 " neocomplcache
 " neocomplcache用設定
@@ -313,3 +311,8 @@ let g:user_emmet_leader_key='<c-e>'
 let g:user_emmet_settings = {
 \   'lang' : 'ja'
 \ }
+
+" vim-tags
+let g:vim_tags_project_tags_command = "ctags -f tags -R . 2>/dev/null"
+let g:vim_tags_gems_tags_command = "ctags -R -f Gemfile.lock.tags `bundle show --paths` 2>/dev/null"
+set tags+=tags,Gemfile.lock.tags
