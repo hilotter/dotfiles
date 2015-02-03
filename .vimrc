@@ -19,7 +19,9 @@ NeoBundle 'Shougo/vimproc', {
       \     'unix' : 'make -f make_unix.mak',
       \    },
       \ }
- 
+
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/neocomplcache'
  
 "NeoBundleLazy 'Shougo/neosnippet', {
@@ -81,6 +83,38 @@ NeoBundle 'Shougo/vimshell'
 NeoBundle 'mattn/emmet-vim'
 
 NeoBundle 'tpope/vim-surround'
+
+NeoBundle 'jpo/vim-railscasts-theme'
+
+" solarized カラースキーム
+NeoBundle 'altercation/vim-colors-solarized'
+" mustang カラースキーム
+NeoBundle 'croaker/mustang-vim'
+" wombat カラースキーム
+NeoBundle 'jeffreyiacono/vim-colors-wombat'
+" jellybeans カラースキーム
+NeoBundle 'nanotech/jellybeans.vim'
+" lucius カラースキーム
+NeoBundle 'vim-scripts/Lucius'
+" zenburn カラースキーム
+NeoBundle 'vim-scripts/Zenburn'
+" mrkn256 カラースキーム
+NeoBundle 'mrkn/mrkn256.vim'
+" railscasts カラースキーム
+NeoBundle 'jpo/vim-railscasts-theme'
+" pyte カラースキーム
+NeoBundle 'therubymug/vim-pyte'
+" molokai カラースキーム
+NeoBundle 'tomasr/molokai'
+" hybrid カラースキーム
+NeoBundle 'w0ng/vim-hybrid'
+
+" カラースキーム一覧表示に Unite.vim を使う
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'ujihisa/unite-colorscheme'
+
+" カラースキーマの設定
+colorscheme molokai
 
 " Required:
 filetype plugin indent on
@@ -171,7 +205,7 @@ set wildmode=list:full
 set noswapfile
 set backupdir=$HOME/.vimbackup
 
-nmap <Esc><Esc> :nohlsearch<CR><Esc>
+noremap :nh :nohlsearch<CR><ESC>
 
 " move key disable
 nnoremap <up> <nop>
@@ -194,6 +228,29 @@ nnoremap <down> <nop>
 "smap <silent><C-F>                <Plug>(neosnippet_expand_or_jump)
 "" xmap <silent>o                    <Plug>(neosnippet_register_oneshot_snippet)
 "}}}
+
+"------------------------------------
+" Unit.vim
+"------------------------------------
+" 入力モードで開始する
+let g:unite_enable_start_insert=1
+" バッファ一覧
+noremap <C-P> :Unite buffer<CR>
+" ファイル一覧
+noremap <C-L> :Unite -buffer-name=file file<CR>
+" 最近使ったファイルの一覧
+noremap <C-Z> :Unite file_mru<CR>
+" sourcesを「今開いているファイルのディレクトリ」とする
+noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
+" ウィンドウを分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+au FileType unite inoremap <silent> <buffer> <expr> <C-J> unite#do_action('split')
+" ウィンドウを縦に分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vsplit')
+" ESCキーを2回押すと終了する
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
 "------------------------------------
 " vim-rails
