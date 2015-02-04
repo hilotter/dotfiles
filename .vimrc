@@ -88,6 +88,14 @@ NeoBundle 'jpo/vim-railscasts-theme'
 
 NeoBundle 'tpope/vim-dispatch'
 
+" js設定
+NeoBundle 'pangloss/vim-javascript'
+
+" css設定
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'AtsushiM/search-parent.vim'
+NeoBundle 'AtsushiM/sass-compile.vim'
+
 " solarized カラースキーム
 NeoBundle 'altercation/vim-colors-solarized'
 " mustang カラースキーム
@@ -383,3 +391,15 @@ set tags+=tags,Gemfile.lock.tags
 " tagsジャンプの時に複数ある時は一覧表示
 nnoremap <C-]> g<C-]>
 let g:vim_tags_use_vim_dispatch = 1
+
+"------------------------------------
+" sass
+"------------------------------------
+""{{{
+let g:sass_compile_auto = 1
+let g:sass_compile_cdloop = 5
+let g:sass_compile_cssdir = ['css', 'stylesheet']
+let g:sass_compile_file = ['scss', 'sass']
+let g:sass_compile_beforecmd = ''
+let g:sass_compile_aftercmd = ''
+"}}}
