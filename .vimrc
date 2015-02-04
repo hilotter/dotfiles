@@ -86,6 +86,8 @@ NeoBundle 'tpope/vim-surround'
 
 NeoBundle 'jpo/vim-railscasts-theme'
 
+NeoBundle 'tpope/vim-dispatch'
+
 " solarized カラースキーム
 NeoBundle 'altercation/vim-colors-solarized'
 " mustang カラースキーム
@@ -114,7 +116,7 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
 
 " カラースキーマの設定
-colorscheme molokai
+colorscheme desert
 
 " Required:
 filetype plugin indent on
@@ -363,13 +365,21 @@ let g:vimshell_execute_file_list = {}
 let g:vimshell_execute_file_list['rb'] = 'bundle exec ruby'
 noremap ,sh :sp<CR><C-w>j:VimShell<CR>
 
-" emmet-key
+"------------------------------------
+" emmet-vim
+"------------------------------------
 let g:user_emmet_leader_key='<c-e>'
 let g:user_emmet_settings = {
-\   'lang' : 'ja'
-\ }
+    \    'variables': {
+    \      'lang': "ja"
+    \    },
+    \   'indentation': '  '
+    \ }
 
 " vim-tags
 let g:vim_tags_project_tags_command = "ctags -f tags -R . 2>/dev/null"
 let g:vim_tags_gems_tags_command = "ctags -R -f Gemfile.lock.tags `bundle show --paths` 2>/dev/null"
 set tags+=tags,Gemfile.lock.tags
+" tagsジャンプの時に複数ある時は一覧表示
+nnoremap <C-]> g<C-]>
+let g:vim_tags_use_vim_dispatch = 1
