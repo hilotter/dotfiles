@@ -1,7 +1,7 @@
 if has('vim_starting')
   set nocompatible               " Be iMproved
 
-   " Required:
+  " Required:
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
@@ -87,6 +87,8 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'jpo/vim-railscasts-theme'
 
 NeoBundle 'tpope/vim-dispatch'
+
+NeoBundle 'kana/vim-submode'
 
 " js設定
 NeoBundle 'pangloss/vim-javascript'
@@ -249,7 +251,7 @@ noremap <C-P> :Unite buffer<CR>
 " ファイル一覧
 noremap <C-L> :Unite -buffer-name=file file<CR>
 " 最近使ったファイルの一覧
-noremap <C-A> :Unite file_mru<CR>
+noremap <C-E> :Unite file_mru<CR>
 " sourcesを「今開いているファイルのディレクトリ」とする
 noremap :uff :<C-u>UniteWithBufferDir file -buffer-name=file<CR>
 " ウィンドウを分割して開く
@@ -267,6 +269,8 @@ let g:unite_enable_ignore_case = 1
 let g:unite_enable_smart_case = 1
 " grep検索
 nnoremap <silent> ,g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+" ディレクトリを指定してgrep検索
+nnoremap <silent> ,dg  :<C-u>Unite grep -buffer-name=search-buffer<CR>
 " カーソル位置の単語をgrep検索
 nnoremap <silent> ,cg :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W><CR>
 " grep検索結果の再呼出
@@ -380,8 +384,9 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " Rubocop
-let g:syntastic_mode_map = { 'mode': 'passive',
-            \ 'active_filetypes': ['ruby'] }
+" ファイル保存時だと重いので手動チェックに切り替え
+let g:syntastic_mode_map = { 'mode': 'passive' }
+noremap ,c :SyntasticCheck<CR>
 let g:syntastic_ruby_checkers = ['rubocop']
 
 " VimShell
@@ -406,7 +411,7 @@ let g:vim_tags_gems_tags_command = "ctags -R -f Gemfile.lock.tags `bundle show -
 set tags+=tags,Gemfile.lock.tags
 " tagsジャンプの時に複数ある時は一覧表示
 nnoremap <C-]> g<C-]>
-let g:vim_tags_use_vim_dispatch = 1
+"let g:vim_tags_use_vim_dispatch = 1
 
 "------------------------------------
 " sass
@@ -419,3 +424,16 @@ let g:sass_compile_file = ['scss', 'sass']
 let g:sass_compile_beforecmd = ''
 let g:sass_compile_aftercmd = ''
 "}}}
+
+"------------------------------------
+" submode.vim
+"------------------------------------
+" ウインドウサイズ変更ショートカット
+call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
+call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
+call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
+call submode#map('winsize', 'n', '', '>', '<C-w>>')
+call submode#map('winsize', 'n', '', '<', '<C-w><')
+call submode#map('winsize', 'n', '', '+', '<C-w>+')
+call submode#map('winsize', 'n', '', '-', '<C-w>-')
