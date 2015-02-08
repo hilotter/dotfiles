@@ -90,6 +90,8 @@ NeoBundle 'tpope/vim-dispatch'
 
 NeoBundle 'kana/vim-submode'
 
+NeoBundle 'dbext.vim'
+
 " js設定
 NeoBundle 'pangloss/vim-javascript'
 
@@ -225,6 +227,13 @@ nnoremap <right> <nop>
 nnoremap <left> <nop>
 nnoremap <down> <nop>
 
+" 256色モード
+if stridx($TERM, "xterm-256color") >= 0
+  set t_Co=256
+else
+  set t_Co=16
+endif
+
 "------------------------------------
 " neosnippet
 "------------------------------------
@@ -357,33 +366,64 @@ aug MyAutoCmd
 aug END
 "}}}
 
+"----------------------------------------
 " matchit
+"----------------------------------------
 if !exists('loaded_matchit')
   " matchitを有効化
   runtime macros/matchit.vim
 endif
 
+"----------------------------------------
 " NERDTree
+"----------------------------------------
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden = 1
 "autocmd VimEnter * execute 'NERDTree'
 
+"----------------------------------------
 " neocomplcache
-" neocomplcache用設定
+"----------------------------------------
+let g:acp_enableAtStartup = 0
+" 起動時に有効
 let g:neocomplcache_enable_at_startup = 1
+" 自動補完を行う入力数を設定。初期値は2
+let g:neocomplcache_auto_completion_start_length = 2
+" 手動補完時に補完を行う入力数を制御。値を小さくすると文字の削除時に重くなる
+let g:neocomplcache_manual_completion_start_length = 3
+" 補完候補検索時に大文字・小文字を無視する
 let g:neocomplcache_enable_ignore_case = 1
+" 大文字小文字を区切りとしたあいまい検索を行うかどうか。
+let g:neocomplcache_enable_camel_case_completion = 1
+" 入力に大文字が入力されている場合、大文字小文字の区別をする
 let g:neocomplcache_enable_smart_case = 1
+" アンダーバーを区切りとしたあいまい検索を行うかどうか。
+let g:neocomplcache_enable_underbar_completion = 1
+" シンタックスファイル中で、補完の対象となるキーワードの最小長さ。初期値は4。
+let g:neocomplcache_min_syntax_length = 3
+" バッファや辞書ファイル中で、補完の対象となるキーワードの最小長さ。初期値は4。
+let g:neocomplcache_min_keyword_length = 2
+let g:neocomplcache_enable_quick_match = 1
+" ポップアップメニューで表示される候補の数。初期値は100
+let g:neocomplcache_max_list = 20
+let g:neocomplcache_dictionary_filetype_lists = {
+   \ 'default' : ''
+   \ }
 if !exists('g:neocomplcache_keyword_patterns')
   let g:neocomplcache_keyword_patterns = {}
 endif
 let g:neocomplcache_keyword_patterns._ = '\h\w*'
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache#sources#rsense#home_directory = '/opt/rsense-0.3'
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
 
+"----------------------------------------
 " Rubocop
+"----------------------------------------
 " ファイル保存時だと重いので手動チェックに切り替え
 let g:syntastic_mode_map = { 'mode': 'passive' }
 noremap ,c :SyntasticCheck<CR>
