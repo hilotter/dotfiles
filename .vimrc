@@ -92,8 +92,12 @@ NeoBundle 'kana/vim-submode'
 
 NeoBundle 'dbext.vim'
 
+NeoBundle 'digitaltoad/vim-jade'
+
 " js設定
 NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'mxw/vim-jsx'
 
 " css設定
 NeoBundle 'hail2u/vim-css3-syntax'
@@ -477,3 +481,14 @@ call submode#map('winsize', 'n', '', '>', '<C-w>>')
 call submode#map('winsize', 'n', '', '<', '<C-w><')
 call submode#map('winsize', 'n', '', '+', '<C-w>+')
 call submode#map('winsize', 'n', '', '-', '<C-w>-')
+
+"------------------------------------
+" coffee
+"------------------------------------
+" {{{
+au BufRead,BufNewFile,BufReadPre *.coffee set filetype=coffee
+"autocmd FileType coffee setlocal sw=2 sts=2 ts=2 et
+"autocmd BufWritePost *.coffee silent make!
+"autocmd QuickFixCmdPost * nested cwindow | redraw!
+"nnoremap <silent> <C-C> :CoffeeCompile vert <CR><C-w>h
+" }}}
