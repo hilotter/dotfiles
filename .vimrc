@@ -288,10 +288,10 @@ nnoremap <silent> ,dg  :<C-u>Unite grep -buffer-name=search-buffer<CR>
 nnoremap <silent> ,cg :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W><CR>
 " grep検索結果の再呼出
 nnoremap <silent> ,r  :<C-u>UniteResume search-buffer<CR>
-" unite grep に ag(The Silver Searcher) を使う
-if executable('ag')
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+" unite grep に pt(The Platinum Searcher) を使う
+if executable('pt')
+  let g:unite_source_grep_command = 'pt'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
   let g:unite_source_grep_recursive_opt = ''
 endif
 
