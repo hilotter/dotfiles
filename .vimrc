@@ -134,6 +134,9 @@ NeoBundle 'ujihisa/unite-colorscheme'
 " カラースキーマの設定
 colorscheme desert
 
+" go
+NeoBundle 'fatih/vim-go'
+
 " Required:
 filetype plugin indent on
 
@@ -492,3 +495,9 @@ au BufRead,BufNewFile,BufReadPre *.coffee set filetype=coffee
 "autocmd QuickFixCmdPost * nested cwindow | redraw!
 "nnoremap <silent> <C-C> :CoffeeCompile vert <CR><C-w>h
 " }}}
+
+"------------------------------------
+" go
+"------------------------------------
+set completeopt=menu,preview
+let g:syntastic_go_checkers = ['golint', 'gotype', 'govet', 'go']
